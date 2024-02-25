@@ -1,0 +1,92 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/dashboard-styles.css">
+    <!-- 在 head 中引入 Bootstrap 的 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <!-- 在 body 結束標籤前引入 Bootstrap 的 JavaScript 和 Popper.js（這是 Bootstrap 所需的 JavaScript 插件） -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+</head>
+<body>
+<div class="dashboard-container">
+    <h2>Welcome, <span th:text="${user.username}"></span>!</h2>
+    <input type="hidden" id="usernameInput" th:value="${user.username}">
+
+    <h3>Money Transactions:</h3>
+    <table class="transaction-table">
+        <thead>
+        <tr>
+            <th>日期</th>
+            <th>存入</th>
+            <th>支出</th>
+            <th>結餘</th>
+            <th>備註</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="transaction : ${transactions}">
+            <td th:text="${transaction.date}"></td>
+            <td th:if="${transaction.deposit != 0}" th:text="${transaction.deposit}"></td>
+            <td th:unless="${transaction.deposit != 0}"></td>
+            <td th:if="${transaction.spend != 0}" th:text="${transaction.spend}"></td>
+            <td th:unless="${transaction.spend != 0}"></td>
+            <td th:text="${transaction.balance}"></td>
+            <td th:text="${transaction.remark}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <button type="button" class="btn btn-primary" onclick="addNewTransaction()">Add Transaction</button>
+</div>
+
+<!-- Add a button to trigger the add transaction functionality -->
+
+<!-- Modal for adding a new transaction -->
+<div class="modal fade" id="addTransactionModal" tabindex="-1" aria-labelledby="addTransactionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTransactionModalLabel">Add New Transaction</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form for adding a new transaction -->
+                <form onsubmit="handleFormSubmission(); return false;" method="post">
+                    <div class="mb-3">
+                        <label for="dateInput" class="form-label">日期:</label>
+                        <input type="text" class="form-control" id="dateInput" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="depositInput" class="form-label">存入:</label>
+                        <input type="number" class="form-control" id="depositInput" pattern="[0-9]*">
+                    </div>
+                    <div class="mb-3">
+                        <label for="spendInput" class="form-label">支出:</label>
+                        <input type="number" class="form-control" id="spendInput" pattern="[0-9]*">
+                    </div>
+                    <div class="mb-3">
+                        <label for="balanceInput" class="form-label">結餘:</label>
+                        <input type="number" class="form-control" id="balanceInput" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="remarkInput" class="form-label">備註:</label>
+                        <input type="text" class="form-control" id="remarkInput" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/script.js"></script>
+</body>
+</html>

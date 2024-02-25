@@ -1,0 +1,43 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/script.js"></script>
+</head>
+<body>
+<div class="login-container">
+    <div class="tabs">
+        <div class="tab" id="login-tab" onclick="changeTab('login')">Login</div>
+        <div class="tab" id="register-tab" onclick="changeTab('register')">Register</div>
+    </div>
+    <h2 id="form-title">Login</h2>
+    <form th:action="@{/account/dashboard}" method="post" th:object="${user}" id="login-form">
+        <!-- Login Form Fields -->
+        <div class="form-group">
+            <label for="login-username">Username:</label>
+            <input type="text" id="login-username" th:field="*{username}" required>
+        </div>
+        <div class="form-group">
+            <label for="login-password">Password:</label>
+            <input type="password" id="login-password" th:field="*{password}" required>
+        </div>
+        <button type="submit">Login</button>
+    </form>
+    <form th:action="@{/account/register}" method="post" th:object="${user}" id="register-form" style="display: none;">
+        <!-- Register Form Fields -->
+        <div class="form-group">
+            <label for="register-username">Username:</label>
+            <input type="text" id="register-username" th:field="*{username}" required>
+        </div>
+        <div class="form-group">
+            <label for="register-password">Password:</label>
+            <input type="password" id="register-password" th:field="*{password}" required>
+        </div>
+        <button type="submit">Register</button>
+    </form>
+</div>
+</body>
+</html>
